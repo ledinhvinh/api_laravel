@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\PayPalController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,3 +16,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+// Route để bắt đầu quá trình thanh toán
+Route::get('paypal/payment', [PayPalController::class, 'createPayment'])->name('paypal.payment');
+
+// Route PayPal sẽ gọi lại sau khi thanh toán thành công
+Route::get('paypal/success', [PayPalController::class, 'paymentSuccess'])->name('paypal.success');
+
+// Route PayPal sẽ gọi lại nếu người dùng hủy thanh toán
+Route::get('paypal/cancel', [PayPalController::class, 'paymentCancel'])->name('paypal.cancel');
