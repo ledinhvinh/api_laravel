@@ -3,9 +3,10 @@
 namespace App\Repositories\Eloquent;
 
 use App\Models\Review;
+use App\Repositories\BaseRepository;
 use App\Repositories\Interfaces\ReviewRepositoryInterface;
 
-class ReviewRepository implements ReviewRepositoryInterface
+class ReviewRepository extends BaseRepository implements ReviewRepositoryInterface
 {
     public function getAllReviews()
     {

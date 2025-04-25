@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -12,6 +12,7 @@ use App\Http\Controllers\ProductImageController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WishlistController;
+use App\Http\Controllers\PayPalController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -44,6 +45,8 @@ Route::prefix('user')->middleware(['auth:sanctum'])->group(function () {
 
 // Lấy danh sách sản phẩm (không cần xác thực)
 Route::get('/products', [ProductController::class, 'index']);
+Route::get('/products/{productId}', [ProductController::class, 'show']);
+Route::get('/category', [CategoryController::class, 'index']);
 
 // Routes cho Admin (cần xác thực và quyền admin)
 Route::prefix('admin')->middleware(['auth:sanctum', 'role:admin'])->group(function () {
@@ -60,3 +63,17 @@ Route::prefix('admin')->middleware(['auth:sanctum', 'role:admin'])->group(functi
     // Đăng xuất admin
     Route::post('/logout', [AuthController::class, 'logout']);
 });
+
+Route::post('paypal/create-payment', [PayPalController::class, 'createPayment'])
+    ->middleware('auth:sanctum') // Ví dụ bảo vệ bằng Sanctum
+    ->name('api.paypal.create');
+
+Route::get('paypal/success', [PayPalController::class, 'paymentSuccess'])
+    ->name('api.paypal.success');
+
+Route::get('paypal/cancel', [PayPalController::class, 'paymentCancel'])
+    ->name('api.paypal.cancel');
+
+Route::post('paypal/capture-payment', [PayPalController::class, 'capturePayment'])
+    ->middleware('auth:sanctum') // Cần xác thực người dùng
+    ->name('api.paypal.capture');

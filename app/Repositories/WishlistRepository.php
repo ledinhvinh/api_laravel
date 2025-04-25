@@ -3,9 +3,10 @@
 namespace App\Repositories\Eloquent;
 
 use App\Models\Wishlist;
+use App\Repositories\BaseRepository;
 use App\Repositories\Interfaces\WishlistRepositoryInterface;
 
-class WishlistRepository implements WishlistRepositoryInterface
+class WishlistRepository extends BaseRepository implements WishlistRepositoryInterface
 {
     public function getUserWishlist($userId)
     {

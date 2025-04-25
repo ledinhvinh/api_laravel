@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 use App\Services\ProductService;
 use Illuminate\Http\Request;
-use App\Models\Product;
+use App\Repositories\Interfaces\ProductRepositoryInterface;
+
 class ProductController extends Controller
 {
     /**
@@ -12,14 +13,14 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     protected $product;
-    public function __construct(Product $product)
+     protected $productRepository;
+    public function __construct(ProductService $product)
     {
-        $this->product = $product;
+        $this->productRepository = $product;
     }
     public function index()
     {
-        $data = $this->product->getAll();
+        $data = $this->productRepository->getAll();
         return response()->json($data);
     }
 
@@ -33,7 +34,7 @@ class ProductController extends Controller
     {
         //
         $data = $request->validated();
-        $product = $this->product->create($data);
+        $product = $this->productRepository->create($data);
         return response()->json($product, 201);
     }
 
@@ -46,7 +47,7 @@ class ProductController extends Controller
     public function show($id)
     {
         //
-        return response()->json($this->product->getById($id));
+        return response()->json($this->productRepository->getById($id));
     }
 
     /**
@@ -60,7 +61,7 @@ class ProductController extends Controller
     {
         //
         $data = $request->validated();
-        $product = $this->product->updateP($id, $data);
+        $product = $this->productRepository->updateP($id, $data);
         return response()->json($product, 200);
     }
 
@@ -73,6 +74,6 @@ class ProductController extends Controller
     public function destroy($id)
     {
         //
-        return response()->json($this->product->deleteP($id), 204);
+        return response()->json($this->productRepository->deleteP($id), 204);
     }
 }

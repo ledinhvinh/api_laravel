@@ -4,8 +4,8 @@ namespace App\Repositories;
 
 use App\Models\OrderItem;
 use App\Repositories\Interfaces\BaseRepositoryInterface;
-
-class OrderItemRepository implements BaseRepositoryInterface
+use App\Repositories\Interfaces\OrderItemRepositoryInterface;
+class OrderItemRepository extends BaseRepository implements OrderItemRepositoryInterface
 {
     public function getAll()
     {
